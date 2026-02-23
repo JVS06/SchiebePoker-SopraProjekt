@@ -12,4 +12,5 @@ class SchiebePokerGame(val players: MutableList<Player>) {
     var deskCards = mutableListOf<Card>();
 
     var discardstack: Stack<Card> = Stack();
+
 }
