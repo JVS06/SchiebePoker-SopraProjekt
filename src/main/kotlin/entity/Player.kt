@@ -1,7 +1,7 @@
 package entity
 
 /**
- * Entity to represent a player in the game "War". Besides having a [name] and the information
+ * Entity to represent a player in the game "Schiebe-Poker Game". Besides having a [name] and the information
  * whether an action is executed this round ([actionCounter]), the player just consists of two
  * lists of cards: [hiddenCards], [openCards]
  *
