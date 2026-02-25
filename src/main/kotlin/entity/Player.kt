@@ -11,9 +11,9 @@ package entity
  * @param actionCounter counts the actions, which were executed by the player
  */
 class Player(val name: String) {
-    val actionCounter: Int = 0;
+    val actionCounter: Int = 0
 
-    var hiddenCards: MutableList<Card> = mutableListOf();
+    var hiddenCards: MutableList<Card> = mutableListOf()
 
-    var openCards: MutableList<Card> = mutableListOf();
+    var openCards: MutableList<Card> = mutableListOf()
 }

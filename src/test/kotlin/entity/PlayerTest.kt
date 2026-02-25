@@ -6,32 +6,39 @@ import kotlin.test.assertEquals
 
 class PlayerTest {
 
-    private val aceOfSpades = Card(CardSuit.SPADES, CardValue.ACE);
+    private val aceOfSpades = Card(CardSuit.SPADES, CardValue.ACE)
 
-    val player = Player("player");
+    val player = Player("player")
+
     @BeforeTest
     fun setUp(){
-        player.openCards = mutableListOf<Card>(aceOfSpades);
-        player.hiddenCards = mutableListOf<Card>(aceOfSpades);
+        player.openCards = mutableListOf(aceOfSpades)
+        player.hiddenCards = mutableListOf(aceOfSpades)
     }
 
 
 
     /**
-     * Test, if the Card is initialized right with one Value and one Suit
+     * Test, if the players Name is Right
      */
     @Test
     fun testPlayerName(){
-        assertEquals("player",player.name);
+        assertEquals("player",player.name)
     }
 
+    /**
+     * Test, if the open cards are correct
+     */
     @Test
     fun testOpenCards(){
-        assertEquals(player.openCards, mutableListOf(aceOfSpades));
+        assertEquals(player.openCards, mutableListOf(aceOfSpades))
     }
 
+    /**
+     * Test, if the hidden cards are correct
+     */
     @Test
     fun testHiddenCards(){
-        assertEquals(player.hiddenCards,mutableListOf(aceOfSpades));
+        assertEquals(player.hiddenCards,mutableListOf(aceOfSpades))
     }
 }
