@@ -32,7 +32,7 @@ class SchiebePokerGameTest {
      */
     @Test
     fun testCurrentRound(){
-        assertEquals(3,game.currentRound)
+        assertEquals(3,game.roundsLeft)
     }
 
     /**
