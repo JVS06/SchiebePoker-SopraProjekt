@@ -3,6 +3,9 @@ package entity
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Test class for testing the class Card
+ */
 class CardTest {
 
     private val aceOfSpades = Card(CardSuit.SPADES, CardValue.ACE)

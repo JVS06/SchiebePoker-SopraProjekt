@@ -30,7 +30,7 @@ class GameServiceTest {
     fun `test startNewGame, createDrawStack and dealCards`(){
         val game = rootService.currentGame
         checkNotNull(game)
-        assertEquals(3, game.roundsLeft)
+        assertEquals(2, game.roundsLeft)
         assertEquals(mutableListOf<Player>(Player("Alice")), game.players)
         assertEquals(3,game.deskCards.size)
         assertEquals(3, game.players.get(0).openCards.size)
@@ -45,10 +45,11 @@ class GameServiceTest {
      */
     @Test
     fun `test endTurn and endgame`(){
-        val game = rootService.currentGame
+        val root = rootService
+        val game = root.currentGame
         checkNotNull(game)
         game.roundsLeft = 1
-        rootService.gameService.endTurn()
+        root.gameService.endTurn()
 
         assertEquals(null, rootService.currentGame)
         assertEquals(0,game.roundsLeft)

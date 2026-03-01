@@ -4,12 +4,18 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Test class for testing the class Player
+ */
 class PlayerTest {
 
     private val aceOfSpades = Card(CardSuit.SPADES, CardValue.ACE)
 
     val player = Player("player")
 
+    /**
+     * Sets up a open and hidden cards for each test
+     */
     @BeforeTest
     fun setUp(){
         player.openCards = mutableListOf(aceOfSpades)

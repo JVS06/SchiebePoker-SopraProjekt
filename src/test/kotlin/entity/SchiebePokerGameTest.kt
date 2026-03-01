@@ -4,6 +4,9 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Test class for testing the class SchiebePokerGame
+ */
 class SchiebePokerGameTest {
     private val aceOfSpades = Card(CardSuit.SPADES, CardValue.ACE)
 
@@ -11,6 +14,9 @@ class SchiebePokerGameTest {
 
     val game = SchiebePokerGame(mutableListOf(player),3)
 
+    /**
+     * Sets up a new game before each test
+     */
     @BeforeTest
     fun setUp(){
         game.currentPlayer = 1
