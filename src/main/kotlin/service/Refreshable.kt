@@ -10,4 +10,35 @@ package service
  *
  * @see AbstractRefreshingService
  */
-interface Refreshable
+interface Refreshable{
+
+    /**
+     * perform refreshes that are necessary after a new game started
+     */
+    public fun refreshAfterGameStart()
+
+    /**
+     * perform refreshes that are necessary after a turn ended
+     */
+    public fun refreshAfterEndTurn()
+
+    /**
+     * perform refreshes that are necessary after the drawStack is filled
+     */
+    public  fun refreshAfterDrawStack()
+
+    /**
+     * perform refreshes that are necessary after the player swaps cards
+     */
+    public fun refreshAfterSwap()
+
+    /**
+     * perform refreshes that are necessary after the player moves cards
+     */
+    public fun refreshAfterMove()
+
+    /**
+     * perform refreshes that are necessary after the game ended
+     */
+    public fun refreshAfterEndGame()
+}

@@ -1,22 +1,23 @@
 package entity
 
+import tools.aqua.bgw.net.common.notification.PlayerLeftNotification
 import tools.aqua.bgw.util.Stack
 
 /**
  *
  * Entity class that represents a game state of "Schiebe-Poker". This class has all the information about
- * the [currentPlayer], [currentRound], [log], [deskCards], [drawStack] and [discardStack]-
+ * the [currentPlayer], [roundsLeft], [log], [deskCards], [drawStack] and [discardStack]-
  *
- * @property players The list of Players
- * @param currentRound The Int showing how many Round are left
- * @param currentPlayer The Index showing the Player, whose turn it is
- * @param log The list of Strings, showing the Log for other player, noting, what the actions the players did
- * @param drawStack The Stack of Cards to put a Card on the table, for the move action
- * @param deskCards The List of the 3 Cards which are on the desk, these cards are used for the actions
- * @param discardStack The Stack of Cards, to put the card, which was removed by the action move.
+ * @param players list of Players
+ * @param roundsLeft showing how many Round are left
+ * @param currentPlayer showing the Index of the Player, whose turn it is
+ * @param log  list of Strings, showing the Log for other player, noting, what the actions the players did
+ * @param drawStack  stack of cards to put a card on the table, for the move action
+ * @param deskCards list of the 3 cards which are on the desk, these cards are used for the actions
+ * @param discardStack stack of cards, to put the card, which was removed by the action move
  */
 
-class SchiebePokerGame(val players: MutableList<Player>, var currentRound: Int) {
+class SchiebePokerGame(val players: MutableList<Player>, var roundsLeft: Int) {
     var currentPlayer: Int = 0
 
     var log = mutableListOf("SchiebePokerGame")
