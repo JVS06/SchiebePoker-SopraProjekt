@@ -42,6 +42,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
         }
     }
 
+
     /**
      * Deals 3 open and 2 hidden cards to each player and 3 cards on the desk
      *
@@ -148,7 +149,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
         
         val ranking = selectWinner()
         if (ranking.count { it.second == ranking.get(0).second } > 1){
-            var winners = mutableListOf<String>()
+            val winners = mutableListOf<String>()
             for (player in ranking){
                 if (player.second == ranking.get(0).second){
                     winners.add(player.first.name)
@@ -172,7 +173,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
      */
     private fun selectWinner(): MutableList<Pair<Player, Int>>{
         val game = checkNotNull(rootService.currentGame) { "No game is currently active" }
-        var ranking = mutableListOf<Pair<Player, Int>>()
+        val ranking = mutableListOf<Pair<Player, Int>>()
         for (player in game.players){
             ranking.add(Pair(player,assertCardCombination(player.openCards,player.hiddenCards)))
         }

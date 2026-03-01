@@ -1,7 +1,5 @@
 package service
 
-import entity.Card
-import entity.SchiebePokerGame
 
 /**
  * Service layer class that provides the logic for the five possible actions a player
@@ -97,10 +95,10 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
         }
 
         if (!direction){
-            game.deskCards.removeFirst()
+            game.discardStack.push(game.deskCards.removeFirst())
             game.deskCards.addLast(game.drawStack.pop())
         }else{
-            game.deskCards.removeLast()
+            game.discardStack.push(game.deskCards.removeLast())
             game.deskCards.addFirst(game.drawStack.pop())
         }
 

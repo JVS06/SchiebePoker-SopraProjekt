@@ -1,16 +1,21 @@
 package service
 
 import entity.Player
-import entity.SchiebePokerGame
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 private lateinit var rootService: RootService
 
+/**
+ * Class for testing the [GameService.startNewGame], [GameService.endTurn] and [GameService.refillDrawStack]
+ * methods of the [GameService].
+ */
 class GameServiceTest {
 
+    /**
+     * Sets up a new game before each test
+     */
     @BeforeTest
     fun setUp(){
         rootService = RootService()
@@ -18,6 +23,9 @@ class GameServiceTest {
 
     }
 
+    /**
+     * Test starting a new Game
+     */
     @Test
     fun `test startNewGame, createDrawStack and dealCards`(){
         val game = rootService.currentGame
@@ -32,6 +40,9 @@ class GameServiceTest {
         assertEquals(0, game.currentPlayer)
     }
 
+    /**
+     * Test ending a turn and ending the game
+     */
     @Test
     fun `test endTurn and endgame`(){
         val game = rootService.currentGame
@@ -44,6 +55,20 @@ class GameServiceTest {
         assertEquals(0,game.players.get(game.currentPlayer).actionCounter)
     }
 
+    /**
+     * Test refilling the draw stack
+     */
+    @Test
+    fun `test refillDrawStack`(){
+        val game = rootService.currentGame
+        checkNotNull(game)
 
+        game.discardStack.pushAll(game.drawStack.popAll(game.drawStack.size))
 
+        assertEquals(0,game.drawStack.size)
+
+        rootService.gameService.refillDrawStack()
+
+        assertEquals(0, game.discardStack.size)
+    }
 }
