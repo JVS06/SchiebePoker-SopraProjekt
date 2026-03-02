@@ -198,27 +198,27 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
 
         for (card in cards){
             when (card.cardSuit){
-                CardSuit.CLUBS -> values[0] +=1
-                CardSuit.SPADES -> values[1] +=1
-                CardSuit.HEARTS -> values[2] += 1
-                CardSuit.DIAMONDS -> values[3] +=1
+                CardSuit.CLUBS -> suits[0] +=1
+                CardSuit.SPADES -> suits[1] +=1
+                CardSuit.HEARTS -> suits[2] += 1
+                CardSuit.DIAMONDS -> suits[3] +=1
             }
         }
         for (card in cards){
             when (card.cardValue){
-                CardValue.TWO -> suits[0] += 1
-                CardValue.THREE -> suits[1] += 1
-                CardValue.FOUR -> suits[2] += 1
-                CardValue.FIVE -> suits[3] += 1
-                CardValue.SIX -> suits[4] += 1
-                CardValue.SEVEN -> suits[5] += 1
-                CardValue.EIGHT -> suits[6] += 1
-                CardValue.NINE -> suits[7] += 1
-                CardValue.TEN -> suits[8] += 1
-                CardValue.JACK -> suits[9] += 1
-                CardValue.QUEEN -> suits[10] += 1
-                CardValue.KING -> suits[11] += 1
-                CardValue.ACE -> suits[12] += 1
+                CardValue.TWO -> values[0] += 1
+                CardValue.THREE -> values[1] += 1
+                CardValue.FOUR -> values[2] += 1
+                CardValue.FIVE -> values[3] += 1
+                CardValue.SIX -> values[4] += 1
+                CardValue.SEVEN -> values[5] += 1
+                CardValue.EIGHT -> values[6] += 1
+                CardValue.NINE -> values[7] += 1
+                CardValue.TEN -> values[8] += 1
+                CardValue.JACK -> values[9] += 1
+                CardValue.QUEEN -> values[10] += 1
+                CardValue.KING -> values[11] += 1
+                CardValue.ACE -> values[12] += 1
             }
         }
 
@@ -243,11 +243,13 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
             }
         }
         if (cards.get(1).cardValue.ordinal == cards.get(0).cardValue.ordinal+1 &&
-            cards.get(2).cardValue.ordinal == cards.get(1).cardValue.ordinal+1 &&
-            cards.get(3).cardValue.ordinal == cards.get(2).cardValue.ordinal+1 &&
-            cards.get(4).cardValue.ordinal == cards.get(3).cardValue.ordinal+1 ){
-            return 5
+            cards.get(2).cardValue.ordinal == cards.get(1).cardValue.ordinal+1){
+            if (cards.get(3).cardValue.ordinal == cards.get(2).cardValue.ordinal+1 &&
+                cards.get(4).cardValue.ordinal == cards.get(3).cardValue.ordinal+1 ) {
+                return 5
+            }
         }
+
         if (values.any { it == 2 }){
             if(values.count { it == 2 } == 2){
                 return 3
