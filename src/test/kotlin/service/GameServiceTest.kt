@@ -36,6 +36,9 @@ class GameServiceTest {
         val game = rootService.currentGame
         assertNotNull(game)
 
+        val testRefreshable = TestRefreshable()
+        rootService.addRefreshable(testRefreshable)
+
         game.players.sortBy { it.name }
         assertEquals(2, game.players.size)
         assertEquals("Alice",game.players[0].name)
@@ -50,6 +53,7 @@ class GameServiceTest {
 
         assertEquals(2,game.players[0].hiddenCards.size)
         assertEquals(2,game.players[1].hiddenCards.size)
+
     }
 
     /**
@@ -60,14 +64,20 @@ class GameServiceTest {
         val game = rootService.currentGame
         assertNotNull(game)
 
+        val testRefreshable = TestRefreshable()
+        rootService.addRefreshable(testRefreshable)
+
         game.discardStack.pushAll(game.drawStack.popAll(game.drawStack.size))
         assertTrue(game.drawStack.isEmpty())
         assertEquals(false, game.discardStack.isEmpty())
 
+        testRefreshable.reset()
         rootService.gameService.refillDrawStack()
 
         assertTrue(game.discardStack.isEmpty())
         assertFalse(game.drawStack.isEmpty())
+
+        assertTrue { testRefreshable.refreshAfterDrawStackCalled}
     }
 
     /**
@@ -79,12 +89,17 @@ class GameServiceTest {
         assertNotNull(game)
         game.players.sortBy { it.name }
 
+        val testRefreshable = TestRefreshable()
+        rootService.addRefreshable(testRefreshable)
+
         game.roundsLeft--
         game.currentPlayer = 1
 
+        testRefreshable.reset()
         rootService.gameService.endTurn()
 
         assertNull(rootService.currentGame)
+        assertTrue(testRefreshable.refreshAfterEndGameCalled)
     }
 
     /**
@@ -97,10 +112,16 @@ class GameServiceTest {
         game.players.sortBy { it.name }
         game.players[0].actionCounter++
 
+        val testRefreshable = TestRefreshable()
+        rootService.addRefreshable(testRefreshable)
+
+        testRefreshable.reset()
         rootService.gameService.endTurn()
 
         assertEquals(1,game.currentPlayer)
         assertEquals(0, game.players[0].actionCounter)
+
+        assertTrue(testRefreshable.refreshAfterEndTurnCalled)
     }
 
     /**
@@ -113,10 +134,15 @@ class GameServiceTest {
         game.players.sortBy { it.name }
         game.currentPlayer ++
 
+        val testRefreshable = TestRefreshable()
+        rootService.addRefreshable(testRefreshable)
+
+        testRefreshable.reset()
         rootService.gameService.endTurn()
 
         assertEquals(1,game.roundsLeft)
         assertEquals(0, game.currentPlayer)
+        assertTrue(testRefreshable.refreshAfterEndTurnCalled)
     }
 
     /**

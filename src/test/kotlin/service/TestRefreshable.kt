@@ -20,6 +20,9 @@ class TestRefreshable: Refreshable {
     var refreshAfterEndGameCalled: Boolean = false
         private set
 
+    var refreshAfterDrawStackCalled: Boolean = false
+        private set
+
     /**
      * resets all *Called properties to false
      */
@@ -29,6 +32,7 @@ class TestRefreshable: Refreshable {
         refreshAfterSwapCalled = false
         refreshAfterMoveCalled = false
         refreshAfterEndGameCalled = false
+        refreshAfterDrawStackCalled = false
     }
 
     override fun refreshAfterGameStart(){
@@ -49,5 +53,9 @@ class TestRefreshable: Refreshable {
 
     override fun refreshAfterEndGame(){
         refreshAfterEndGameCalled = true
+    }
+
+    override fun refreshAfterDrawStack(){
+        refreshAfterDrawStackCalled = true
     }
 }

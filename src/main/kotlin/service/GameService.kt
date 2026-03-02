@@ -233,12 +233,21 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
                 }
             }
         }
-        if (cards.get(1).cardValue.ordinal == cards.get(0).cardValue.ordinal+1 &&
-            cards.get(2).cardValue.ordinal == cards.get(1).cardValue.ordinal+1){
-            if (cards.get(3).cardValue.ordinal == cards.get(2).cardValue.ordinal+1 &&
-                cards.get(4).cardValue.ordinal == cards.get(3).cardValue.ordinal+1 ) {
-                return 5
+
+        fun straight(): Boolean{
+            cards.sortBy { it.cardValue }
+            if (cards.get(1).cardValue.ordinal == cards.get(0).cardValue.ordinal+1 &&
+                cards.get(2).cardValue.ordinal == cards.get(1).cardValue.ordinal+1){
+                if (cards.get(3).cardValue.ordinal == cards.get(2).cardValue.ordinal+1 &&
+                    cards.get(4).cardValue.ordinal == cards.get(3).cardValue.ordinal+1 ) {
+                    return true
+                }
             }
+            return false
+        }
+
+        if (straight()){
+            return 5
         }
 
         if (values.any { it == 2 }){
