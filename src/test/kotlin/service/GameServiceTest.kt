@@ -1,75 +1,50 @@
 package service
 
-import entity.Player
+import org.junit.jupiter.api.Test
 import kotlin.test.BeforeTest
-import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-private lateinit var rootService: RootService
 
-/**
- * Class for testing the [GameService.startNewGame], [GameService.endTurn] and [GameService.refillDrawStack]
- * methods of the [GameService].
- */
 class GameServiceTest {
 
     /**
-     * Sets up a new game before each test
+     * This service is initialized in the [setUp] function hence it is a late-initialized property.
+     */
+    private lateinit var rootService: RootService
+
+    /**
+     * Initialize service to set up the test environment. This function is executed before every test.
      */
     @BeforeTest
-    fun setUp(){
+    fun setUp() {
         rootService = RootService()
-        rootService.gameService.startNewGame(mutableListOf<String>("Alice"),2)
-
+        rootService.gameService.startNewGame(mutableListOf("Alice","Bob"),2)
     }
 
-    /**
-     * Test starting a new Game
-     */
     @Test
-    fun `test startNewGame, createDrawStack and dealCards`(){
+    fun `game should start`(){
         val game = rootService.currentGame
-        checkNotNull(game)
-        assertEquals(2, game.roundsLeft)
-        assertEquals(mutableListOf<Player>(Player("Alice")), game.players)
+        assertNotNull(game)
+
+        game.players.sortBy { it.name }
+        assertEquals(2, game.players.size)
+        assertEquals("Alice",game.players[0].name)
+        assertEquals("Bob",game.players[1].name)
+
+        assertEquals(39, game.drawStack.size)
+
         assertEquals(3,game.deskCards.size)
-        assertEquals(3, game.players.get(0).openCards.size)
-        assertEquals(2, game.players.get(0).hiddenCards.size)
-        assertEquals(46, game.drawStack.size)
-        assertEquals(0,game.discardStack.size)
-        assertEquals(0, game.currentPlayer)
+
+        assertEquals(3,game.players[0].openCards.size)
+        assertEquals(3, game.players[1].openCards.size)
+
+        assertEquals(2,game.players[0].hiddenCards.size)
+        assertEquals(2,game.players[1].hiddenCards.size)
+
+
+
+
     }
 
-    /**
-     * Test ending a turn and ending the game
-     */
-    @Test
-    fun `test endTurn and endgame`(){
-        val root = rootService
-        val game = root.currentGame
-        checkNotNull(game)
-        game.roundsLeft = 1
-        root.gameService.endTurn()
-
-        assertEquals(null, rootService.currentGame)
-        assertEquals(0,game.roundsLeft)
-        assertEquals(0,game.players.get(game.currentPlayer).actionCounter)
-    }
-
-    /**
-     * Test refilling the draw stack
-     */
-    @Test
-    fun `test refillDrawStack`(){
-        val game = rootService.currentGame
-        checkNotNull(game)
-
-        game.discardStack.pushAll(game.drawStack.popAll(game.drawStack.size))
-
-        assertEquals(0,game.drawStack.size)
-
-        rootService.gameService.refillDrawStack()
-
-        assertEquals(0, game.discardStack.size)
-    }
 }

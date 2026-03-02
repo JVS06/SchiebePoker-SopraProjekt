@@ -5,6 +5,7 @@ import entity.CardSuit
 import entity.CardValue
 import entity.Player
 import entity.SchiebePokerGame
+import tools.aqua.bgw.util.Stack
 
 /**
  * Service layer class that provides the logic for actions not directly
@@ -94,6 +95,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
         val game = checkNotNull(rootService.currentGame) { "No game is currently active" }
         game.drawStack = game.discardStack
         game.drawStack.shuffle()
+        game.discardStack = Stack()
         
         onAllRefreshables { 
             refreshAfterDrawStack()
