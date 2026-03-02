@@ -28,6 +28,9 @@ class GameServiceTest {
         rootService.gameService.startNewGame(mutableListOf("Alice","Bob"),2)
     }
 
+    /**
+     * test if the game was started properly
+     */
     @Test
     fun `test startGame, dealCards, createDrawStack`(){
         val game = rootService.currentGame
@@ -49,6 +52,9 @@ class GameServiceTest {
         assertEquals(2,game.players[1].hiddenCards.size)
     }
 
+    /**
+     * test if the drawStack is refilled correctly
+     */
     @Test
     fun refillDrawStackTest(){
         val game = rootService.currentGame
@@ -64,6 +70,9 @@ class GameServiceTest {
         assertFalse(game.drawStack.isEmpty())
     }
 
+    /**
+     * test if the game was ended properly, and was set null
+     */
     @Test
     fun testEndGame(){
         val game = rootService.currentGame
@@ -78,6 +87,9 @@ class GameServiceTest {
         assertNull(rootService.currentGame)
     }
 
+    /**
+     * test if the currentPlayer is the next player
+     */
     @Test
     fun `testEndTurn to next player`(){
         val game = rootService.currentGame
@@ -91,6 +103,9 @@ class GameServiceTest {
         assertEquals(0, game.players[0].actionCounter)
     }
 
+    /**
+     * test if the next round starts
+     */
     @Test
     fun `testEndTurn to next round`(){
         val game = rootService.currentGame
@@ -104,6 +119,9 @@ class GameServiceTest {
         assertEquals(0, game.currentPlayer)
     }
 
+    /**
+     * test if the winners are correct
+     */
     @Test
     fun selectWinnerTest(){
         val game = rootService.currentGame
@@ -125,8 +143,12 @@ class GameServiceTest {
         assertEquals(10, ranking.get(0).second)
     }
 
+    /**
+     * test assertCardCombination (Royal Flush, Straight Flush, Flush, Four Of A Kind, Full House, Three Of A Kind)
+     */
     @Test
-    fun assertCardCombinationTest(){
+    fun assertCardCombinationTestPart1() {
+        //Royal Flush Test
         var tenClub = Card(CardSuit.CLUBS, CardValue.TEN)
         var jackClub = Card(CardSuit.CLUBS, CardValue.JACK)
         var queenClub = Card(CardSuit.CLUBS, CardValue.QUEEN)
@@ -138,8 +160,9 @@ class GameServiceTest {
 
         var points = rootService.gameService.assertCardCombination(open, hidden)
 
-        assertEquals(10,points)
+        assertEquals(10, points)
 
+        // Straight Flush
         tenClub = Card(CardSuit.CLUBS, CardValue.TEN)
         jackClub = Card(CardSuit.CLUBS, CardValue.JACK)
         queenClub = Card(CardSuit.CLUBS, CardValue.QUEEN)
@@ -153,6 +176,7 @@ class GameServiceTest {
 
         assertEquals(9, points)
 
+        //Flush
         tenClub = Card(CardSuit.CLUBS, CardValue.EIGHT)
         jackClub = Card(CardSuit.CLUBS, CardValue.JACK)
         queenClub = Card(CardSuit.CLUBS, CardValue.QUEEN)
@@ -166,11 +190,12 @@ class GameServiceTest {
 
         assertEquals(6, points)
 
+        //Four Of A Kind
         tenClub = Card(CardSuit.CLUBS, CardValue.ACE)
         jackClub = Card(CardSuit.DIAMONDS, CardValue.ACE)
         queenClub = Card(CardSuit.HEARTS, CardValue.ACE)
         kingClub = Card(CardSuit.SPADES, CardValue.ACE)
-        aceClub = Card(CardSuit.CLUBS, CardValue.NINE)
+        aceClub = Card(CardSuit.CLUBS, CardValue.SEVEN)
 
         open = mutableListOf(tenClub, jackClub, queenClub)
         hidden = mutableListOf(kingClub, aceClub)
@@ -179,6 +204,7 @@ class GameServiceTest {
 
         assertEquals(8, points)
 
+        // Full House
         tenClub = Card(CardSuit.CLUBS, CardValue.ACE)
         jackClub = Card(CardSuit.DIAMONDS, CardValue.ACE)
         queenClub = Card(CardSuit.HEARTS, CardValue.NINE)
@@ -192,6 +218,7 @@ class GameServiceTest {
 
         assertEquals(7, points)
 
+        // Three Of A Kind
         tenClub = Card(CardSuit.CLUBS, CardValue.ACE)
         jackClub = Card(CardSuit.DIAMONDS, CardValue.ACE)
         queenClub = Card(CardSuit.HEARTS, CardValue.NINE)
@@ -204,20 +231,29 @@ class GameServiceTest {
         points = rootService.gameService.assertCardCombination(open, hidden)
 
         assertEquals(4, points)
+    }
 
-        tenClub = Card(CardSuit.CLUBS, CardValue.TWO)
-        jackClub = Card(CardSuit.DIAMONDS, CardValue.THREE)
-        queenClub = Card(CardSuit.HEARTS, CardValue.FOUR)
-        kingClub = Card(CardSuit.SPADES, CardValue.FIVE)
-        aceClub = Card(CardSuit.CLUBS, CardValue.SIX)
 
-        open = mutableListOf(tenClub, jackClub, queenClub)
-        hidden = mutableListOf(kingClub, aceClub)
+    /**
+     * test assertCardCombination (Straight, Two Pair, One Pair High Card)
+     */
+    @Test
+    fun assertCardCombinationPart2(){
+        // Straight
+        var tenClub = Card(CardSuit.CLUBS, CardValue.TWO)
+        var jackClub = Card(CardSuit.DIAMONDS, CardValue.THREE)
+        var queenClub = Card(CardSuit.HEARTS, CardValue.FOUR)
+        var kingClub = Card(CardSuit.SPADES, CardValue.FIVE)
+        var aceClub = Card(CardSuit.CLUBS, CardValue.SIX)
 
-        points = rootService.gameService.assertCardCombination(open, hidden)
+        var open = mutableListOf(tenClub, jackClub, queenClub)
+        var hidden = mutableListOf(kingClub, aceClub)
+
+        var points = rootService.gameService.assertCardCombination(open, hidden)
 
         assertEquals(5, points)
 
+        // Two Pair
         tenClub = Card(CardSuit.CLUBS, CardValue.ACE)
         jackClub = Card(CardSuit.DIAMONDS, CardValue.EIGHT)
         queenClub = Card(CardSuit.HEARTS, CardValue.NINE)
@@ -231,6 +267,7 @@ class GameServiceTest {
 
         assertEquals(3, points)
 
+        // One Pair
         tenClub = Card(CardSuit.CLUBS, CardValue.ACE)
         jackClub = Card(CardSuit.DIAMONDS, CardValue.EIGHT)
         queenClub = Card(CardSuit.HEARTS, CardValue.NINE)
@@ -244,6 +281,7 @@ class GameServiceTest {
 
         assertEquals(2, points)
 
+        //High Card
         tenClub = Card(CardSuit.CLUBS, CardValue.TWO)
         jackClub = Card(CardSuit.DIAMONDS, CardValue.TEN)
         queenClub = Card(CardSuit.HEARTS, CardValue.EIGHT)
