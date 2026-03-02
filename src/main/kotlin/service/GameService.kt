@@ -31,7 +31,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
             players.add(Player(name))
         }
         players.shuffle()
-        val game: SchiebePokerGame = SchiebePokerGame(players,roundsLeft)
+        val game = SchiebePokerGame(players,roundsLeft)
 
         rootService.currentGame = game
         createDrawStack()
@@ -123,7 +123,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
     public fun endTurn(){
         val game = checkNotNull(rootService.currentGame) { "No game is currently active" }
 
-        game.players.get(game.currentPlayer).actionCounter=0
+        game.players.get(game.currentPlayer).actionCounter = 0
 
         if (game.currentPlayer == game.players.size-1){
             game.roundsLeft--
@@ -150,18 +150,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
         writeLog("Game Ended")
         
         val ranking = selectWinner()
-        if (ranking.count { it.second == ranking.get(0).second } > 1){
-            val winners = mutableListOf<String>()
-            for (player in ranking){
-                if (player.second == ranking.get(0).second){
-                    winners.add(player.first.name)
-                }
-            }
-            writeLog("The winners are ${winners.toString()}")
-        }else{
-            writeLog("The winner is " + ranking.first().first.name)
-        }
-        
+
         onAllRefreshables { 
             refreshAfterEndGame()
         }
@@ -173,7 +162,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
      *
      * @throws IllegalStateException if no game has started yet
      */
-    private fun selectWinner(): MutableList<Pair<Player, Int>>{
+    internal fun selectWinner(): MutableList<Pair<Player, Int>>{
         val game = checkNotNull(rootService.currentGame) { "No game is currently active" }
         val ranking = mutableListOf<Pair<Player, Int>>()
         for (player in game.players){
@@ -192,7 +181,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
      *
      * @throws IllegalStateException if no game has started yet
      */
-    private fun assertCardCombination(openCards: MutableList<Card>, hiddenCards: MutableList<Card>): Int {
+    internal fun assertCardCombination(openCards: MutableList<Card>, hiddenCards: MutableList<Card>): Int {
         val cards: MutableList<Card> = (openCards + hiddenCards) as MutableList<Card>
         cards.sortBy { it.cardValue }
         val values = IntArray(13) {0}
@@ -235,10 +224,10 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
         }
         if (values.any { it >= 3 }){
             if (values.any { it == 4 }){
-                return 7
+                return 8
             }else if (values.any { it == 3 }){
                 if (values.any { it == 2 }){
-                    return 6
+                    return 7
                 }else {
                     return 4
                 }
