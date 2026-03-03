@@ -195,23 +195,29 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
                 CardSuit.DIAMONDS -> suits[3] +=1
             }
         }
-        for (card in cards){
-            when (card.cardValue){
-                CardValue.TWO -> values[0] += 1
-                CardValue.THREE -> values[1] += 1
-                CardValue.FOUR -> values[2] += 1
-                CardValue.FIVE -> values[3] += 1
-                CardValue.SIX -> values[4] += 1
-                CardValue.SEVEN -> values[5] += 1
-                CardValue.EIGHT -> values[6] += 1
-                CardValue.NINE -> values[7] += 1
-                CardValue.TEN -> values[8] += 1
-                CardValue.JACK -> values[9] += 1
-                CardValue.QUEEN -> values[10] += 1
-                CardValue.KING -> values[11] += 1
-                CardValue.ACE -> values[12] += 1
+
+        fun valuesCount(){
+            for (card in cards){
+                when (card.cardValue){
+                    CardValue.TWO -> values[0] += 1
+                    CardValue.THREE -> values[1] += 1
+                    CardValue.FOUR -> values[2] += 1
+                    CardValue.FIVE -> values[3] += 1
+                    CardValue.SIX -> values[4] += 1
+                    CardValue.SEVEN -> values[5] += 1
+                    CardValue.EIGHT -> values[6] += 1
+                    CardValue.NINE -> values[7] += 1
+                    CardValue.TEN -> values[8] += 1
+                    CardValue.JACK -> values[9] += 1
+                    CardValue.QUEEN -> values[10] += 1
+                    CardValue.KING -> values[11] += 1
+                    CardValue.ACE -> values[12] += 1
+                }
             }
         }
+
+        valuesCount()
+
 
         if (suits.any { it == 5 }){
             if (cards.get(0).cardValue == CardValue.TEN){

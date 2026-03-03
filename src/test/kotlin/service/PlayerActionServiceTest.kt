@@ -22,6 +22,9 @@ class PlayerActionServiceTest {
         rootService.gameService.startNewGame(mutableListOf("Alice","Bob"),2)
     }
 
+    /**
+     * test swapOneCard method
+     */
     @Test
     fun swapOneCardTest(){
         val game = rootService.currentGame
@@ -42,8 +45,14 @@ class PlayerActionServiceTest {
         assertEquals(desk, game.players[game.currentPlayer].openCards[0])
         assertTrue(testRefreshable.refreshAfterSwapCalled)
 
+        rootService.playerActionService.swapOneCard(0,0)
+        assertEquals(1, game.currentPlayer)
+
     }
 
+    /**
+     * test swapThree card method
+     */
     @Test
     fun swapThreeCardsTest(){
         val game = rootService.currentGame
@@ -64,8 +73,14 @@ class PlayerActionServiceTest {
         assertEquals(desk, game.players[game.currentPlayer].openCards)
         assertTrue(testRefreshable.refreshAfterSwapCalled)
 
+        rootService.playerActionService.swapThreeCards()
+        assertEquals(1, game.currentPlayer)
+
     }
 
+    /**
+     * test moveRight method
+     */
     @Test
     fun moveRightTest(){
         val game = rootService.currentGame
@@ -84,8 +99,14 @@ class PlayerActionServiceTest {
         assertEquals(last, game.deskCards[2])
         assertTrue(testRefreshable.refreshAfterMoveCalled)
 
+        rootService.playerActionService.move(false)
+        assertEquals(1, game.currentPlayer)
+
     }
 
+    /**
+     * test moveLeft method
+     */
     @Test
     fun moveLeftTest(){
         val game = rootService.currentGame
@@ -103,6 +124,28 @@ class PlayerActionServiceTest {
         assertEquals(first, game.discardStack.peek())
         assertEquals(last, game.deskCards[0])
         assertTrue(testRefreshable.refreshAfterMoveCalled)
+
+        rootService.playerActionService.move(true)
+        assertEquals(1, game.currentPlayer)
+
+    }
+
+    /**
+     * test skip swap and endturn called by skip swap
+     */
+    @Test
+    fun skipSwapTest(){
+        val game = rootService.currentGame
+        assertNotNull(game)
+
+        val testRefreshable = TestRefreshable()
+        rootService.addRefreshable(testRefreshable)
+
+        rootService.playerActionService.skipSwap()
+        assertEquals(1, game.players[game.currentPlayer].actionCounter)
+
+        rootService.playerActionService.skipSwap()
+        assertEquals(1, game.currentPlayer)
 
     }
 }
