@@ -6,10 +6,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
+/**
+ * Class that provides tests for [PlayerActionService]. [TestRefreshable] is used to validate
+ * correct refreshing behavior even though no GUI is present.
+ */
 class PlayerActionServiceTest {
 
     /**
-     * This service is initialized in the [setUp] function hence it is a late-initialized property.
+     * This [RootService] is initialized in the [setUp] function hence it is a late-initialized property.
      */
     private lateinit var rootService: RootService
 
