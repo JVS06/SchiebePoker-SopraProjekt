@@ -80,10 +80,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
             }
         }
         game.drawStack.shuffle()
-        
-        onAllRefreshables { 
-            refreshAfterDrawStack()
-        }
+
     }
 
     /**
@@ -120,26 +117,29 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
      *
      *@throws IllegalStateException if no game has started yet
      */
-    public fun endTurn(){
+    public fun endTurn() {
         val game = checkNotNull(rootService.currentGame) { "No game is currently active" }
+
+        writeLog("${game.players[game.currentPlayer].name} ended their turn")
 
         game.players.get(game.currentPlayer).actionCounter = 0
 
-        if (game.currentPlayer == game.players.size-1){
+        if (game.currentPlayer == game.players.size - 1) {
             game.roundsLeft--
             game.currentPlayer = 0
-        }else{
+        } else {
             game.currentPlayer++
         }
 
-        if (game.roundsLeft == 0){
+        if (game.roundsLeft == 0) {
             endGame()
-        }else{
+        } else {
             onAllRefreshables {
                 refreshAfterEndTurn()
             }
         }
     }
+
 
     /**
      * Ends the game and prints the winner(s)
@@ -152,7 +152,7 @@ class GameService(private val rootService: RootService): AbstractRefreshingServi
         val ranking = selectWinner()
 
         onAllRefreshables { 
-            refreshAfterEndGame()
+            refreshAfterEndGame(ranking)
         }
         rootService.currentGame = null
     }

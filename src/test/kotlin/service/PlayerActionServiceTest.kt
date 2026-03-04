@@ -67,11 +67,15 @@ class PlayerActionServiceTest {
         val open = game.players[game.currentPlayer].openCards
         val desk = game.deskCards
 
+        val open1 = open[0]
+
         val testRefreshable = TestRefreshable()
         rootService.addRefreshable(testRefreshable)
 
         testRefreshable.reset()
         rootService.playerActionService.swapThreeCards()
+
+        assertEquals(open1, game.deskCards[0])
 
         assertEquals(open, game.deskCards)
         assertEquals(desk, game.players[game.currentPlayer].openCards)

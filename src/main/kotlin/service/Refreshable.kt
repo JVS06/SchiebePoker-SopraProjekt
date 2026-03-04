@@ -1,5 +1,7 @@
 package service
 
+import entity.Player
+
 /**
  * This interface provides a mechanism for the service layer classes to communicate
  * (usually to the GUI classes) that certain changes have been made to the entity
@@ -40,5 +42,5 @@ interface Refreshable{
     /**
      * perform refreshes that are necessary after the game ended
      */
-    public fun refreshAfterEndGame(){}
+    public fun refreshAfterEndGame(ranking: MutableList<Pair<Player, Int>>){}
 }

@@ -26,7 +26,14 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
         game.players.get(game.currentPlayer).openCards.set(openCardPosition,game.deskCards.get(deskPosition))
         game.deskCards.set(deskPosition, card)
 
+        rootService.gameService.writeLog("${game.players[game.currentPlayer].name} swaped " +
+                "${game.players[game.currentPlayer].openCards.get(openCardPosition).cardSuit}" +
+                "${game.players[game.currentPlayer].openCards.get(openCardPosition).cardValue} with " +
+                "${game.deskCards.get(deskPosition).cardSuit}${game.deskCards.get(deskPosition).cardValue}")
+
         game.players.get(game.currentPlayer).actionCounter++
+
+
 
         onAllRefreshables {
             refreshAfterSwap()
@@ -52,6 +59,8 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
 
         game.players.get(game.currentPlayer).actionCounter++
 
+        rootService.gameService.writeLog("${game.players[game.currentPlayer].name} swaped all cards")
+
         onAllRefreshables {
             refreshAfterSwap()
         }
@@ -73,8 +82,14 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
 
         game.players.get(game.currentPlayer).actionCounter++
 
+        rootService.gameService.writeLog("${game.players[game.currentPlayer].name} skipped one action")
+
         if (game.players.get(game.currentPlayer).actionCounter==2){
             rootService.gameService.endTurn()
+        }
+
+        onAllRefreshables {
+            refreshAfterSwap()
         }
     }
 
@@ -103,6 +118,8 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
         }
 
         game.players.get(game.currentPlayer).actionCounter++
+
+        rootService.gameService.writeLog("${game.players[game.currentPlayer].name} moved right or left")
 
         onAllRefreshables {
             refreshAfterMove()
