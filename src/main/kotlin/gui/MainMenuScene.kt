@@ -332,7 +332,7 @@ class MainMenuScene(private val rootService: RootService) : MenuScene(1920,1080)
         width = 1500,
         height = 75,
         text = "",
-        prompt = " Enter Number of Rounds",
+        prompt = "Enter Number of Rounds",
         font = Font(
             size = 50,
             color = Color(0x000000),
@@ -352,7 +352,6 @@ class MainMenuScene(private val rootService: RootService) : MenuScene(1920,1080)
                 startGameButton.isDisabled = name1.text.isBlank() || name2.text.isBlank() || this.text.isBlank()
             }else{
                 this.text = ""
-                this.prompt = "number between 2 and 7"
             }
         }
     }
@@ -378,16 +377,18 @@ class MainMenuScene(private val rootService: RootService) : MenuScene(1920,1080)
     ).apply {
         //this.isDisabled = true
         onMouseClicked = {
-            val playerNames = mutableListOf<String>()
-            playerNames.add(name1.text.trim())
-            playerNames.add(name2.text.trim())
-            if (!name3.text.isBlank()){
-                playerNames.add(name3.text.trim())
+            if (round.text.toIntOrNull() in 2..7) {
+                val playerNames = mutableListOf<String>()
+                playerNames.add(name1.text.trim())
+                playerNames.add(name2.text.trim())
+                if (!name3.text.isBlank()) {
+                    playerNames.add(name3.text.trim())
+                }
+                if (!name4.text.isBlank()) {
+                    playerNames.add(name4.text.trim())
+                }
+                rootService.gameService.startNewGame(playerNames, round.text.trim().toInt())
             }
-            if (!name4.text.isBlank()){
-                playerNames.add(name4.text.trim())
-            }
-            rootService.gameService.startNewGame(playerNames, round.text.trim().toInt())
         }
     }
 
