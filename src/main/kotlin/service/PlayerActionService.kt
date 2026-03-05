@@ -84,13 +84,15 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
 
         rootService.gameService.writeLog("${game.players[game.currentPlayer].name} skipped one action")
 
+        onAllRefreshables {
+            refreshAfterSwap()
+        }
+
         if (game.players.get(game.currentPlayer).actionCounter==2){
             rootService.gameService.endTurn()
         }
 
-        onAllRefreshables {
-            refreshAfterSwap()
-        }
+
     }
 
     /**
@@ -112,14 +114,17 @@ class PlayerActionService(private val rootService: RootService): AbstractRefresh
         if (!direction){
             game.discardStack.push(game.deskCards.removeFirst())
             game.deskCards.addLast(game.drawStack.pop())
+            rootService.gameService.writeLog("${game.players[game.currentPlayer].name} shifted  cards to the left")
+
         }else{
             game.discardStack.push(game.deskCards.removeLast())
             game.deskCards.addFirst(game.drawStack.pop())
+            rootService.gameService.writeLog("${game.players[game.currentPlayer].name} shiftet cards to the right")
+
         }
 
         game.players.get(game.currentPlayer).actionCounter++
 
-        rootService.gameService.writeLog("${game.players[game.currentPlayer].name} moved right or left")
 
         onAllRefreshables {
             refreshAfterMove()

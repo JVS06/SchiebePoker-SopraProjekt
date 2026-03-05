@@ -13,14 +13,71 @@ import tools.aqua.bgw.components.uicomponents.ComboBox
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.components.uicomponents.ListView
 import tools.aqua.bgw.components.uicomponents.Orientation
+import tools.aqua.bgw.components.uicomponents.RadioButton
 import tools.aqua.bgw.components.uicomponents.SelectionMode
+import tools.aqua.bgw.components.uicomponents.ToggleGroup
 import tools.aqua.bgw.core.Alignment
 import tools.aqua.bgw.core.BoardGameScene
 import tools.aqua.bgw.core.Color
 import tools.aqua.bgw.util.BidirectionalMap
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
+
+
+
 class GameScene (private val rootService: RootService) : BoardGameScene(1920, 1080), Refreshable {
+
+    private val playerName = Label(
+        posX = 855+5,
+        posY = 1080 - 70,
+        width = 200,
+        height = 50,
+        text = "Spieler",
+        alignment = Alignment.CENTER,
+        visual = ColorVisual(Color(0x0C2027)),
+        font = Font(22, Color(0xFFFFFFF), "JetBrains Mono ExtraBold")
+    )
+
+    private val opponentName3 = Label(
+        posX = 50,
+        posY = 1080 / 2 -25,
+        width = 200,
+        height = 50,
+        text = "Spieler",
+        alignment = Alignment.CENTER,
+        visual = ColorVisual(Color(0x0C2027)),
+        font = Font(22, Color(0xFFFFFFF), "JetBrains Mono ExtraBold")
+    ).apply {
+        rotation = 90.0
+    }
+    private val opponentName2 = Label(
+        posX = 1920 / 2 - 100,
+        posY = 125,
+        width = 200,
+        height = 50,
+        text = "Spieler",
+        alignment = Alignment.CENTER,
+        visual = ColorVisual(Color(0x0C2027)),
+        font = Font(22, Color(0xFFFFFFF), "JetBrains Mono ExtraBold")
+    ).apply {
+        rotation = 180.0
+    }
+
+    private val opponentName1 = Label(
+        posX = 1920 - 300,
+        posY = 1080 / 2 - 25,
+        width = 200,
+        height = 50,
+        text = "Spieler",
+        alignment = Alignment.CENTER,
+        visual = ColorVisual(Color(0x0C2027)),
+        font = Font(22, Color(0xFFFFFFF), "JetBrains Mono ExtraBold")
+    ).apply {
+        rotation = -90.0
+    }
+
+    val opponentsNames = listOf(opponentName1, opponentName2, opponentName3)
+
 
     val listView = ListView<String>(
         posX = 30,
@@ -131,7 +188,7 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         rotation = -90.0
     }
 
-    val hiddenCards2 = LinearLayout<CardView>(
+    val hiddenCards4 = LinearLayout<CardView>(
         posX = 45,
         posY = 462,
         width = 210,
@@ -145,7 +202,7 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         orientation = Orientation.HORIZONTAL,
         alignment = Alignment.TOP_LEFT
     ).apply {
-        rotation = -90.0
+        rotation = 90.0
     }
 
     val openCards3 = LinearLayout<CardView>(
@@ -199,7 +256,7 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         rotation = 90.0
     }
 
-    val hiddenCard4 = LinearLayout<CardView>(
+    val hiddenCards2 = LinearLayout<CardView>(
         posX = 1610,
         posY = 462,
         width = 210,
@@ -216,9 +273,9 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         rotation = 90.0
     }
 
-    val opponentHidden = listOf(hiddenCards2, hiddenCards3, hiddenCard4)
+    val opponentHidden = listOf(hiddenCards2, hiddenCards3, hiddenCards4)
 
-    val opponentOpen = listOf(openCards2,openCards3, openCards4)
+    val opponentOpen = listOf(openCards2, openCards3, openCards4)
 
     val roundsLeft = Label(
         posX = 1420,
@@ -262,7 +319,178 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         visual = ColorVisual(
             color = Color(0xBEB1B1)
         )
-    )
+    ).apply { onItemSelected = {
+        if (selectedItem == "Swap One Card"){
+            buttonDesk1.isVisible = true
+            buttonDesk2.isVisible = true
+            buttonDesk3.isVisible = true
+            buttonOpen1.isVisible = true
+            buttonOpen2.isVisible = true
+            buttonOpen3.isVisible = true
+        }else{
+            buttonDesk1.isVisible = false
+            buttonDesk2.isVisible = false
+            buttonDesk3.isVisible = false
+            buttonOpen1.isVisible = false
+            buttonOpen2.isVisible = false
+            buttonOpen3.isVisible = false
+        }
+    } }
+
+    val buttonsDesk = ToggleGroup()
+
+    val buttonDesk1 = RadioButton(
+        posX = 845,
+        posY = 440,
+        width = 20,
+        height = 20,
+        text = "",
+        font = Font(
+            size = 14,
+            color = Color(0x000000),
+            family = "Arial",
+            fontWeight = Font.FontWeight.NORMAL,
+            fontStyle = Font.FontStyle.NORMAL
+        ),
+        alignment = Alignment.CENTER,
+        isSelected = true,
+        toggleGroup = buttonsDesk,
+        visual = ColorVisual(
+            color = Color(0xFFFFFF)
+        ).apply {
+            transparency = 0.0
+        }
+    ).apply {
+        isVisible = false
+    }
+
+    val buttonDesk2 = RadioButton(
+        posX = 955,
+        posY = 440,
+        width = 20,
+        height = 20,
+        text = "",
+        font = Font(
+            size = 14,
+            color = Color(0x000000),
+            family = "Arial",
+            fontWeight = Font.FontWeight.NORMAL,
+            fontStyle = Font.FontStyle.NORMAL
+        ),
+        alignment = Alignment.CENTER,
+        isSelected = false,
+        toggleGroup = buttonsDesk,
+        visual = ColorVisual(
+            color = Color(0xFFFFFF)
+        ).apply {
+            transparency = 0.0
+        }
+    ).apply {
+        isVisible = false
+    }
+
+    val buttonDesk3 = RadioButton(
+        posX = 1065,
+        posY = 440,
+        width = 20,
+        height = 20,
+        text = "",
+        font = Font(
+            size = 14,
+            color = Color(0x000000),
+            family = "Arial",
+            fontWeight = Font.FontWeight.NORMAL,
+            fontStyle = Font.FontStyle.NORMAL
+        ),
+        alignment = Alignment.CENTER,
+        isSelected = false,
+        toggleGroup = buttonsDesk,
+        visual = ColorVisual(
+            color = Color(0xFFFFFF)
+        ).apply {
+            transparency = 0.0
+        }
+    ).apply {
+        isVisible = false
+    }
+
+    val buttonOpen = ToggleGroup()
+
+    val buttonOpen1 = RadioButton(
+        posX = 845,
+        posY = 655,
+        width = 20,
+        height = 20,
+        text = "",
+        font = Font(
+            size = 14,
+            color = Color(0x000000),
+            family = "Arial",
+            fontWeight = Font.FontWeight.NORMAL,
+            fontStyle = Font.FontStyle.NORMAL
+        ),
+        alignment = Alignment.CENTER,
+        isSelected = true,
+        toggleGroup = buttonOpen,
+        visual = ColorVisual(
+            color = Color(0xFFFFFF)
+        ).apply {
+            transparency = 0.0
+        }
+    ).apply {
+        isVisible = false
+    }
+
+    val buttonOpen2 = RadioButton(
+        posX = 955,
+        posY = 655,
+        width = 20,
+        height = 20,
+        text = "",
+        font = Font(
+            size = 14,
+            color = Color(0x000000),
+            family = "Arial",
+            fontWeight = Font.FontWeight.NORMAL,
+            fontStyle = Font.FontStyle.NORMAL
+        ),
+        alignment = Alignment.CENTER,
+        isSelected = false,
+        toggleGroup = buttonOpen,
+        visual = ColorVisual(
+            color = Color(0xFFFFFF)
+        ).apply {
+            transparency = 0.0
+        }
+    ).apply {
+        isVisible = false
+    }
+
+    val buttonOpen3 = RadioButton(
+        posX = 1065,
+        posY = 655,
+        width = 20,
+        height = 20,
+        text = "",
+        font = Font(
+            size = 14,
+            color = Color(0x000000),
+            family = "Arial",
+            fontWeight = Font.FontWeight.NORMAL,
+            fontStyle = Font.FontStyle.NORMAL
+        ),
+        alignment = Alignment.CENTER,
+        isSelected = false,
+        toggleGroup = buttonOpen,
+        visual = ColorVisual(
+            color = Color(0xFFFFFF)
+        ).apply {
+            transparency = 0.0
+        }
+    ).apply{
+        isVisible = false
+    }
+
 
     val button = Button(
         posX = 1770,
@@ -288,7 +516,21 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
                 rootService.playerActionService.swapThreeCards()
             }
             if (comboBox.selectedItem == "Swap One Card"){
-                rootService.playerActionService.swapOneCard(0,0)
+                var x = 0;
+                if (buttonDesk1.isSelected){
+                    x=0
+                }else if(buttonDesk2.isSelected){
+                    x=1
+                }else{
+                    x=2
+                }
+                if (buttonOpen1.isSelected){
+                    rootService.playerActionService.swapOneCard(0,x)
+                }else if(buttonOpen2.isSelected){
+                    rootService.playerActionService.swapOneCard(1,x)
+                }else{
+                    rootService.playerActionService.swapOneCard(2,x)
+                }
             }
             if (comboBox.selectedItem == "Skip An Action"){
                 rootService.playerActionService.skipSwap()
@@ -311,8 +553,12 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
            deskCardView,
            openCards1, openCards2, openCards3, openCards4,
            roundsLeft, listView, comboBox,
-           hiddenCards1, hiddenCards2,  hiddenCards3,
-           drawStack, discardStack, button
+           hiddenCards1, hiddenCards2,  hiddenCards3, hiddenCards4,
+           drawStack, discardStack, button,
+           buttonDesk1, buttonDesk2, buttonDesk3,
+           buttonOpen1, buttonOpen2, buttonOpen3,
+           opponentName1, opponentName2, opponentName3,
+           playerName
            )
    }
 
@@ -322,6 +568,9 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         checkNotNull(game) { "Game not started" }
 
         val cardImageLoader = CardImageLoader()
+
+        opponentsNames.forEachIndexed { index, label -> if (index >= game.players.size - 1) label.isVisible = false }
+
 
         hiddenCards1.clear()
         openCards1.clear()
@@ -346,11 +595,15 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
             }
         }
 
+        discardStack.clear()
+
         drawStack.clear()
         game.drawStack.peekAll().reversed().forEach { card ->
             val cardView = cardMap[card]
             drawStack.add(cardView)
         }
+
+        playerName.text = game.players[game.currentPlayer].name
 
         game.players[game.currentPlayer].openCards.forEach { card ->
             openCards1.add(cardMap[card])
@@ -382,17 +635,19 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
             }
         }
 
-//        repeat(game.players.size - 1) { index ->
-//            // Get the player at the current opponent index
-//            val player = game.players[(game.currentPlayer + 1 + index) % game.players.size]
-//
-//            // Add all cards of the opponent's hand to the opponentHand
-//            player.hiddenCards.forEach { card ->
-//                opponentHidden[index].add(
-//                    (cardMap[card])
-//                )
-//            }
-//        }
+        repeat(game.players.size - 1) { index ->
+            // Get the player at the current opponent index
+            val player = game.players[(game.currentPlayer + 1 + index) % game.players.size]
+
+            // Add all cards of the opponent's hand to the opponentHand
+            player.hiddenCards.forEach { card ->
+                opponentHidden[index].add(
+                    (cardMap[card])
+                )
+            }
+
+            opponentsNames[index].text = player.name
+        }
 
         game.deskCards.forEach { card ->
             deskCardView.add(cardMap[card])
@@ -443,6 +698,12 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
             views.clear()
         }
 
+        opponentHidden.forEach { views ->
+            views.clear()
+        }
+
+        playerName.text = game.players[game.currentPlayer].name
+
         game.players[game.currentPlayer].hiddenCards.forEach { card ->
             hiddenCards1.add(cardMap[card])
         }
@@ -470,19 +731,23 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
                     }
                 )
             }
+
+            opponentsNames[index].text = player.name
         }
 
-//        repeat(game.players.size - 1) { index ->
-//            // Get the player at the current opponent index
-//            val player = game.players[(game.currentPlayer + 1 + index) % game.players.size]
-//
-//            // Add all cards of the opponent's hand to the opponentHand
-//            player.hiddenCards.forEach { card ->
-//                opponentHidden[index].add(
-//                    (cardMap[card])
-//                )
-//            }
-//        }
+        repeat(game.players.size - 1) { index ->
+            // Get the player at the current opponent index
+            val player = game.players[(game.currentPlayer + 1 + index) % game.players.size]
+
+            // Add all cards of the opponent's hand to the opponentHand
+            player.hiddenCards.forEach { card ->
+                opponentHidden[index].add(
+                    (cardMap[card]).apply {
+                        showBack()
+                    }
+                )
+            }
+        }
 
         game.deskCards.forEach { card ->
             deskCardView.add(cardMap[card])
@@ -514,7 +779,5 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
 
         listView.items.add(game.log[game.log.size - 1])
     }
-
-
 
 }

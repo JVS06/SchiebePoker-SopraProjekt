@@ -33,12 +33,12 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
     }
 
     val resultMenuScene = ResultMenuScene(rootService).apply {
-        button.onMouseClicked = {
+        restart.onMouseClicked = {
             hideMenuScene(1)
             showMenuScene(mainMenuScene)
             gameScene.listView.items.clear()
         }
-        button1.onMouseClicked = {
+        quit.onMouseClicked = {
             exit()
         }
     }
@@ -85,6 +85,29 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
 
     override fun refreshAfterEndGame(ranking: MutableList<Pair<Player, Int>>) {
         this.showMenuScene(resultMenuScene)
+
+        resultMenuScene.playerNames.forEach { player ->
+            player.text = "-"
+        }
+        resultMenuScene.playerPoints.forEach { player ->
+            player.text = "-"
+        }
+        resultMenuScene.playerHands.forEach { player ->
+            player.text = "-"
+        }
+
+
+
+        ranking.forEachIndexed { index, pair ->
+            resultMenuScene.playerNames[index].text = pair.first.name
+            resultMenuScene.playerPoints[index].text = pair.second.toString()
+            resultMenuScene.playerHands[index].text = "${pair.first.openCards[0].cardSuit}${pair.first.openCards[0].cardValue} " +
+                    "${pair.first.openCards[1].cardSuit}${pair.first.openCards[1].cardValue} " +
+                    "${pair.first.openCards[2].cardSuit}${pair.first.openCards[2].cardValue} " +
+                    "${pair.first.hiddenCards[0].cardSuit}${pair.first.hiddenCards[0].cardValue} " +
+                    "${pair.first.hiddenCards[1].cardSuit}${pair.first.hiddenCards[1].cardValue}"
+
+            }
+        }
     }
-}
 
