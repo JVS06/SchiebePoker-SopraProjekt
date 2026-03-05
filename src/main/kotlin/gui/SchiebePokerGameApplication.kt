@@ -9,7 +9,7 @@ import service.RootService
  * Represents the main application for the SoPra board game.
  * The application initializes the [RootService] and displays the scenes.
  */
-class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable {
+class SchiebePokerGameApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable {
 
     /**
      * The root service instance. This is used to call service methods and access the entity layer.
@@ -24,15 +24,15 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
             exit()
         }
     }
-    private val gameScene = GameScene(rootService)
+    private val gameScene = SchiebePokerGameScene(rootService)
 
-    val hotSeatScene = HotSeatScene(rootService).apply {
+    val hotSeatScene = HotSeatScene().apply {
         button.onMouseClicked = {
             hideMenuScene(0)
         }
     }
 
-    val resultMenuScene = ResultMenuScene(rootService).apply {
+    val resultMenuScene = ResultMenuScene().apply {
         restart.onMouseClicked = {
             hideMenuScene(1)
             showMenuScene(mainMenuScene)
@@ -44,9 +44,6 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
     }
 
 
-    /**
-     * Initializes the application by displaying the [HelloScene].
-     */
     init {
 
         rootService.addRefreshables(
@@ -61,7 +58,9 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
 
     }
 
-
+    /**
+     * shows the game scene after start Game
+     */
     override fun refreshAfterGameStart() {
         val game = rootService.currentGame
         checkNotNull(game) { "Game not started" }
@@ -73,6 +72,9 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
         this.showMenuScene(hotSeatScene)
     }
 
+    /**
+     * shows the hotScene Screen after end turn
+     */
     override fun refreshAfterEndTurn() {
         val game = rootService.currentGame
         checkNotNull(game) { "Game not started" }
@@ -83,6 +85,9 @@ class SopraApplication : BoardGameApplication("Schiebe Poker Game"), Refreshable
 
     }
 
+    /**
+     * shows the result scene
+     */
     override fun refreshAfterEndGame(ranking: MutableList<Pair<Player, Int>>) {
         this.showMenuScene(resultMenuScene)
 

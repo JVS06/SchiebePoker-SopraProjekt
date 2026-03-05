@@ -24,8 +24,10 @@ import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
 
-
-class GameScene (private val rootService: RootService) : BoardGameScene(1920, 1080), Refreshable {
+/**
+ * shows the game scene
+ */
+class SchiebePokerGameScene (private val rootService: RootService) : BoardGameScene(1920, 1080), Refreshable {
 
     private val playerName = Label(
         posX = 855+5,
@@ -282,7 +284,7 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         posY = 930,
         width = 400,
         height = 50,
-        text = "Roundsleft: ",
+        text = "Rounds Left: ",
         font = Font(
             size = 20,
             color = Color(0x000000),
@@ -516,13 +518,13 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
                 rootService.playerActionService.swapThreeCards()
             }
             if (comboBox.selectedItem == "Swap One Card"){
-                var x = 0;
-                if (buttonDesk1.isSelected){
-                    x=0
+                var x = 0
+                x = if (buttonDesk1.isSelected){
+                    0
                 }else if(buttonDesk2.isSelected){
-                    x=1
+                    1
                 }else{
-                    x=2
+                    2
                 }
                 if (buttonOpen1.isSelected){
                     rootService.playerActionService.swapOneCard(0,x)
@@ -562,7 +564,9 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
            )
    }
 
-
+    /**
+     * refreshes the game and loads the cards for the first turn
+     */
     override fun refreshAfterGameStart() {
         val game = rootService.currentGame
         checkNotNull(game) { "Game not started" }
@@ -659,6 +663,9 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         listView.items.add(game.log[game.log.size - 1])
     }
 
+    /**
+     * refreshes after the swap
+     */
     override fun refreshAfterSwap() {
         val game = rootService.currentGame
         checkNotNull(game) { "Game not started" }
@@ -686,6 +693,9 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
 
     }
 
+    /**
+     * refreshes the card views for the next player
+     */
     override fun refreshAfterEndTurn() {
         val game = rootService.currentGame
         checkNotNull(game) { "Game not started" }
@@ -759,6 +769,9 @@ class GameScene (private val rootService: RootService) : BoardGameScene(1920, 10
         listView.items.add(game.log[game.log.size - 1])
     }
 
+    /**
+     * refreshes the desk cards, draw stack and discard pile after the move
+     */
     override fun refreshAfterMove() {
         val game = rootService.currentGame
         checkNotNull(game) { "Game not started" }

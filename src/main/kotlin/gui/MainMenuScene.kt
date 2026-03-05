@@ -11,6 +11,9 @@ import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
+/**
+ * shows the main menu
+ */
 class MainMenuScene(private val rootService: RootService) : MenuScene(1920,1080), Refreshable {
 
     val menu = Label(

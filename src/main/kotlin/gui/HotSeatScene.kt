@@ -1,7 +1,6 @@
 package gui
 
 import service.Refreshable
-import service.RootService
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.core.Alignment
@@ -10,7 +9,7 @@ import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
-class HotSeatScene(private val rootService: RootService) : MenuScene(1920,1080), Refreshable {
+class HotSeatScene: MenuScene(1920,1080), Refreshable {
 
     val label = Label(
         posX = 0,

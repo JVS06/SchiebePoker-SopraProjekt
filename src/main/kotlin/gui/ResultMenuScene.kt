@@ -1,21 +1,18 @@
 package gui
 
-import entity.Player
 import service.Refreshable
-import service.RootService
-import tools.aqua.bgw.components.container.LinearLayout
-import tools.aqua.bgw.components.gamecomponentviews.CardView
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
-import tools.aqua.bgw.components.uicomponents.Orientation
 import tools.aqua.bgw.core.Alignment
 import tools.aqua.bgw.core.Color
 import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
-
-class ResultMenuScene (private val rootService: RootService) : MenuScene(1920,1080), Refreshable {
+/**
+ * shows the results
+ */
+class ResultMenuScene: MenuScene(1920,1080), Refreshable {
 
     val backgroundLabel = Label(
         posX = 200,
@@ -466,10 +463,6 @@ class ResultMenuScene (private val rootService: RootService) : MenuScene(1920,10
             player1Points, player2Points, player3Points, player4Points,
             player1Hand, player2Hand, player3Hand, player4Hand,
         )
-    }
-
-    override fun refreshAfterEndGame(ranking: MutableList<Pair<Player, Int>>) {
-
     }
 
 }
